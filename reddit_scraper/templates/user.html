@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block body %}
+    <div class="row">
+        <div class="col-md-12">
+            <h1>{{ user }}:
+                <small>{{ total }}</small>
+            </h1>
+            <hr/>
+        </div>
+    </div>
+    <div class="row">
+        <div>
+            <div class="input-group form-search">
+                <input class="form-control search-query" id="text-field" name="user" value="" type="text">
+                        <span class="input-group-btn">
+                        <input class="btn btn-primary" id="submit" name="submit" value="Find Text" type="submit">
+                        </span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            {% for key,value in sub_list.subreddit_list.items() %}
+                <div class="subreddit-entry">
+                    <div class="subreddit-name">
+                        <h3>{{ key }}:
+                            <small>{{ value.comment_count }}</small>
+                        </h3>
+                    </div>
+                    {% for comment in value.comment_list %}
+                        <div class="panel-group" id="accordion_{{ comment.name }}">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion_{{ comment.name }}"
+                                           href="#collapse_{{ comment.name }}">
+                                            {{ comment.body[:25] }}...
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapse_{{ comment.name }}" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        {{ comment.body_html | safe }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script src="/static/js/search.js"></script>
+{% endblock %}
