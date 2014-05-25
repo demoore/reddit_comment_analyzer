@@ -24,9 +24,18 @@ class SubredditList:
 
     def get_total_comments(self):
         comment_count = 0
-        for subreddit in self.subreddit_list:
+        for subreddit in self.subreddit_list.values():
             comment_count += subreddit.comment_count
         return comment_count
 
     def get_subreddit_name_list(self):
         return self.subreddit_list.keys()
+
+    def apply_total_comments(self, total_comments):
+        for subreddit in self.subreddit_list.values():
+            subreddit.set_total(total_comments)
+
+
+    def get_percentage_breakdown(self):
+        for subreddit in self.subreddit_list.values():
+            print(str(subreddit.comment_count) + " " + str(subreddit.percentage) + "%")

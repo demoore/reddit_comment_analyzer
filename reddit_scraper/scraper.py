@@ -4,7 +4,7 @@ import json
 from urllib import request, error
 from time import sleep
 import jinja2
-from user.Comment import Comment
+from user.Comment import *
 from user.SubredditList import SubredditList
 
 
@@ -55,8 +55,13 @@ def scrape_user(user_name, limit=100, next_page=""):
                           str(entry['data']['subreddit']),
                           str(entry['data']['link_title']),
                           str(entry['data']['edited']),
-                          str(entry['data']['name']))
+                          str(entry['data']['name']),
+                          str(entry['data']['link_url']),
+                          entry['data']['created_utc'],
+                          entry['data']['ups'],
+                          entry['data']['downs'])
         comment_list.append(comment)
+
         subreddit_next.append(str(entry['data']['name']))
 
     if len(subreddit_next) != 0:

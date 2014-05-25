@@ -1,15 +1,13 @@
 {% extends "base.html" %}
 {% block body %}
     <div class="row">
-        <div class="col-md-12">
-            <h1>{{ user }}:
-                <small>{{ total }}</small>
-            </h1>
+        <div class="col-md-6 col-md-offset-3">
+            <h1>{{ user }}</h1>
             <hr/>
         </div>
     </div>
     <div class="row">
-        <div>
+        <div class="col-md-6 col-md-offset-3">
             <div class="input-group form-search">
                 <input class="form-control search-query" id="text-field" name="user" value="" type="text">
                         <span class="input-group-btn">
@@ -19,12 +17,17 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-3">
+            <div class="info well">
+                <h4>Total Comments: {{ total }}</h4>
+            </div>
+        </div>
+        <div class="col-md-6" id="output">
             {% for key,value in sub_list.subreddit_list.items() %}
-                <div class="subreddit-entry">
+                <div class="subreddit-entry" num-sort="{{ value.comment_count }}" name-sort="{{ value.name }}">
                     <div class="subreddit-name">
                         <h3>{{ key }}:
-                            <small>{{ value.comment_count }}</small>
+                            <small>{{ value.comment_count }} {{ '%0.2f' | format(value.percentage) }}%</small>
                         </h3>
                     </div>
                     {% for comment in value.comment_list %}
@@ -34,13 +37,18 @@
                                     <h4 class="panel-title">
                                         <a data-toggle="collapse" data-parent="#accordion_{{ comment.name }}"
                                            href="#collapse_{{ comment.name }}">
-                                            {{ comment.body[:25] }}...
+                                            <i class="fa fa-arrow-up ups"></i> {{ comment.ups }} <i
+                                                class="fa fa-arrow-down downs"></i> {{ comment.downs }}
+                                            {{ comment.link_title[:30] }}... - {{ comment.body[:10] }}...
                                         </a>
                                     </h4>
                                 </div>
                                 <div id="collapse_{{ comment.name }}" class="panel-collapse collapse">
                                     <div class="panel-body">
                                         {{ comment.body_html | safe }}
+                                        <br/>
+                                        <a href="{{ comment.link_url }}">link</a> <span
+                                            class="time pull-right">{{ comment.time }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -49,8 +57,17 @@
                 </div>
             {% endfor %}
         </div>
+        <div class="col-md-3">
+
+        </div>
     </div>
+
 {% endblock %}
 {% block scripts %}
     <script src="/static/js/search.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#output > .subreddit-entry").tsort("", {order: "desc", attr: "num-sort"});
+        });
+    </script>
 {% endblock %}
