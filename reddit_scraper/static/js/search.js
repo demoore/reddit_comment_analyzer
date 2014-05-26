@@ -10,8 +10,8 @@ $.expr[":"].iContains = $.expr.createPseudo(function(arg) {
 
 $('#text-field').on('input propertychange paste', function(){
     $text = $('#text-field').val();
-    $(".md").parentsUntil('div.panel-group').parent().removeClass("on");
-    $(".md:not(:iContains('" + $text + "'))").parentsUntil('div.panel-group').parent().addClass("on");
+    $(".post").parentsUntil('div.panel-group').parent().removeClass("on");
+    $(".post:not(:iContains('" + $text + "'))").parentsUntil('div.panel-group').parent().addClass("on");
 
     $(".subreddit-entry").each(function(){
         if($(this).children('.panel-group:visible').length === 0){

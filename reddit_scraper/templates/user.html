@@ -20,6 +20,7 @@
         <div class="col-md-3">
             <div class="info well">
                 <h4>Total Comments: {{ total }}</h4>
+                <svg id="svg_donut" width="200" height="200"></svg>
             </div>
         </div>
         <div class="col-md-6" id="output">
@@ -27,7 +28,7 @@
                 <div class="subreddit-entry" num-sort="{{ value.comment_count }}" name-sort="{{ value.name }}">
                     <div class="subreddit-name">
                         <h3>{{ key }}:
-                            <small>{{ value.comment_count }} {{ '%0.2f' | format(value.percentage) }}%</small>
+                            <small>{{ value.comment_count }} {{ '%0.2f' | format(value.percentage) }}% UPS: {{ value.total_ups }} DOWNS: {{ value.total_downs }}</small>
                         </h3>
                     </div>
                     {% for comment in value.comment_list %}
@@ -39,16 +40,20 @@
                                            href="#collapse_{{ comment.name }}">
                                             <i class="fa fa-arrow-up ups"></i> {{ comment.ups }} <i
                                                 class="fa fa-arrow-down downs"></i> {{ comment.downs }}
-                                            {{ comment.link_title[:30] }}... - {{ comment.body[:10] }}...
+                                            {{ comment.link_title[:50] }}... - {{ comment.body[:10] }}...
                                         </a>
                                     </h4>
                                 </div>
                                 <div id="collapse_{{ comment.name }}" class="panel-collapse collapse">
-                                    <div class="panel-body">
-                                        {{ comment.body_html | safe }}
-                                        <br/>
-                                        <a href="{{ comment.link_url }}">link</a> <span
-                                            class="time pull-right">{{ comment.time }}</span>
+                                    <div class="post"><h4>{{ comment.link_title }}</h4>
+
+                                        <div class="panel-body">
+                                            {{ comment.body_html | safe }}
+                                            <br/>
+                                            <a href="{{ comment.link_url }}"><strong>link</strong></a> |
+                                            <a href="{{ comment.context_url }}?context=3"><strong>reddit</strong></a>
+                                            <span class="time pull-right"><strong>{{ comment.time }}</strong></span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -65,9 +70,58 @@
 {% endblock %}
 {% block scripts %}
     <script src="/static/js/search.js"></script>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <script>
         $(document).ready(function () {
             $("#output > .subreddit-entry").tsort("", {order: "desc", attr: "num-sort"});
         });
     </script>
+    <script>
+        var dataset = {
+            karma: [{{ sub_list.total_ups }}, {{ sub_list.total_downs }}]
+        };
+
+        var width = 200,
+                height = 200,
+                radius = Math.min(width, height) / 2;
+
+        var color = d3.scale.ordinal()
+                .range(["#FF8C00", "#6495ED"]);
+
+        var pie = d3.layout.pie();
+
+        var arc = d3.svg.arc()
+                .innerRadius(0)
+                .outerRadius(radius);
+
+        var svg = d3.select("#svg_donut")
+                .append("svg")
+                .attr("width", width)
+                .attr("height", height);
+
+        var arcs = svg.selectAll("g.arc")
+                .data(pie(dataset.karma))
+                .enter()
+                .append("g")
+                .attr("class", "arc")
+                .attr("transform", "translate(" + radius + ", " + radius + ")");
+
+        arcs.append("path")
+                .attr("fill", function(d, i) {
+                    return color(i);
+                })
+                .attr("d", arc);
+
+        arcs.append("text")
+                .attr("transform", function (d) {
+                    return "translate(" + arc.centroid(d) + ")";
+                })
+                .attr("text-anchor", "middle")
+                .text(function (d) {
+                    return d.value;
+                });
+
+
+    </script>
+
 {% endblock %}

@@ -39,7 +39,7 @@ def scrape_user(user_name, limit=100, next_page=""):
     else:
         user_url = "http://www.reddit.com/user/" + user_name + "/comments.json?limit=" + str(limit)
 
-    user_comments = get_comments(user_url, delay=2)
+    user_comments = get_comments(user_url, delay=1)
 
     print(user_url)
 
@@ -59,7 +59,9 @@ def scrape_user(user_name, limit=100, next_page=""):
                           str(entry['data']['link_url']),
                           entry['data']['created_utc'],
                           entry['data']['ups'],
-                          entry['data']['downs'])
+                          entry['data']['downs'],
+                          str(entry['data']['id']),
+                          str(entry['data']['link_id']))
         comment_list.append(comment)
 
         subreddit_next.append(str(entry['data']['name']))

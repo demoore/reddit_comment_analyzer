@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, jsonify
 from Forms import UserNameForm
 from scraper import *
 from user import Comment
@@ -19,6 +19,7 @@ def hello_world():
         total = sum(get_comment_count(comment_list).values())
         sub_list = make_subreddit_list(comment_list)
         sub_list.apply_total_comments(total)
+        sub_list.total_ups_and_downs()
         return render_template("user.html", form=form, user=user, total=total, comment_list=comment_list, sub_list=sub_list)
 
     return render_template("index.html", form=form)
