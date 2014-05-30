@@ -1,3 +1,8 @@
+@font-face {
+    font-family: Fira Sans Light;
+    src: url(/static/fonts/FiraSans-Light.woff);
+}
+
 body > .container {
     padding-top: 60px;
 }
@@ -31,12 +36,12 @@ body {
     background-color: #f5f5f5;
 }
 
-.on{
-    display:none;
+.on {
+    display: none;
 }
 
 .info {
-    position: fixed;
+    /*position: fixed;*/
 }
 
 .ups {
@@ -45,4 +50,53 @@ body {
 
 .downs {
     color: cornflowerblue;
+}
+
+h3 small {
+    color: #747474;
+}
+
+.bargraph div {
+    font-family: "Fira Sans Light", sans-serif;
+    font: 10px;
+    background-color: #30b450;
+    text-align: right;
+    padding: 3px;
+    margin: 1px;
+    color: #212f4b;
+}
+
+.bargraph a, a:hover {
+    color: #212f4b;
+    padding: 15px;
+}
+
+a.anchor {
+    display: block;
+    position: relative;
+    top: -60px;
+    visibility: hidden;
+}
+
+svg {
+    font-family: "Fira Sans Light", sans-serif;
+    font: 10px;
+}
+
+.graph {
+    margin: 0 !important;
+}
+
+.stick {
+    position: fixed;
+    top: 0;
+}
+
+#searchbar {
+    z-index: 1;
+    margin-top: 10px;
+}
+
+.navbar {
+    z-index: 1;
 }

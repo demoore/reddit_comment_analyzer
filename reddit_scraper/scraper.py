@@ -15,7 +15,7 @@ def get_comments(url, delay=2):
     sleep(delay)
     try:
         opener = request.build_opener()
-        opener.addheaders = [('User-agent', 'Mozilla/5.0')]
+        opener.addheaders = [('User-agent', 'Comment Analyzer/.01 by zardoz90')]
         req = opener.open(url)
         data = req.read().decode('utf8')
         comments = json.loads(data)
@@ -25,7 +25,7 @@ def get_comments(url, delay=2):
             print("Code 429, too many requests!")
             sleep(delay + 7)
             opener = request.build_opener()
-            opener.addheaders = [('User-agent', 'Mozilla/5.0')]
+            opener.addheaders = [('User-agent', 'Comment Analyzer/.01 by zardoz90')]
             req = opener.open(url)
             data = req.read().decode('utf8')
             comments = json.loads(data)
@@ -39,7 +39,7 @@ def scrape_user(user_name, limit=100, next_page=""):
     else:
         user_url = "http://www.reddit.com/user/" + user_name + "/comments.json?limit=" + str(limit)
 
-    user_comments = get_comments(user_url, delay=1)
+    user_comments = get_comments(user_url, delay=2)
 
     print(user_url)
 

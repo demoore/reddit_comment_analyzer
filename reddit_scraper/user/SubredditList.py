@@ -9,11 +9,11 @@ class SubredditList:
         self.subreddit_list = {}
         self.subreddit_count = 0
         self.comment_count = 0
-        self.total_ups = 0;
-        self.total_downs = 0;
+        self.total_ups = 0
+        self.total_downs = 0
 
     def add_comment_list(self, subreddit):
-        self.subreddit_list[subreddit.name]  = subreddit
+        self.subreddit_list[subreddit.name] = subreddit
         self.subreddit_count += 1
 
     def add_comment(self, comment):

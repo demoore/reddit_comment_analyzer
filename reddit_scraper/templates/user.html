@@ -6,9 +6,11 @@
             <hr/>
         </div>
     </div>
+    <div id="searchbar-anchor"></div>
     <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-            <div class="input-group form-search">
+
+        <div class="col-md-6 col-md-offset-3" id="searchbar">
+            <div class="input-group form-search"  >
                 <input class="form-control search-query" id="text-field" name="user" value="" type="text">
                         <span class="input-group-btn">
                         <input class="btn btn-primary" id="submit" name="submit" value="Find Text" type="submit">
@@ -20,12 +22,21 @@
         <div class="col-md-3">
             <div class="info well">
                 <h4>Total Comments: {{ total }}</h4>
+                <div class="row graph">
                 <svg id="svg_donut" width="200" height="200"></svg>
+                </div>
+                <div class="row graph">
+                    <div class="bargraph">
+
+                    </div>
+                </div>
+
             </div>
         </div>
         <div class="col-md-6" id="output">
             {% for key,value in sub_list.subreddit_list.items() %}
                 <div class="subreddit-entry" num-sort="{{ value.comment_count }}" name-sort="{{ value.name }}">
+                <a class="anchor" name="a_{{ value.name  }}"></a>
                     <div class="subreddit-name">
                         <h3>{{ key }}:
                             <small>{{ value.comment_count }} {{ '%0.2f' | format(value.percentage) }}% UPS: {{ value.total_ups }} DOWNS: {{ value.total_downs }}</small>
@@ -63,7 +74,7 @@
             {% endfor %}
         </div>
         <div class="col-md-3">
-
+            <p>stuff here</p>
         </div>
     </div>
 
@@ -107,7 +118,7 @@
                 .attr("transform", "translate(" + radius + ", " + radius + ")");
 
         arcs.append("path")
-                .attr("fill", function(d, i) {
+                .attr("fill", function (d, i) {
                     return color(i);
                 })
                 .attr("d", arc);
@@ -122,6 +133,54 @@
                 });
 
 
+    </script>
+
+    <script>
+        var dataset = [
+                {% for key,value in sub_list.subreddit_list.items() %}
+                    {"name" : "{{ value.name }}", "value" : {{ value.comment_count }}},
+                {% endfor %}
+        ];
+
+        dataset.sort(function(a,b) { return parseFloat(b.value) - parseFloat(a.value) } );
+
+        var x = d3.scale.linear()
+                .domain([0, dataset[0].value])
+                .range([0, 250]);
+
+
+    d3.select(".bargraph")
+            .selectAll("div")
+            .data(dataset)
+            .enter().append("div")
+            .style("width", function(d) { return x(d.value) + "px"; })
+            .html(function(d) { return "<a href=\"#a_"+ d.name+ "\">" + d.name + "</a>" });
+    </script>
+
+    <script>
+{#        http://jsfiddle.net/HQS8s/#}
+        $(document).ready(function() {
+            // Cache selectors for faster performance.
+            var $window = $(window),
+                    $searchbar = $('#searchbar'),
+                    searchbarAnchor = $('#searchbar-anchor');
+
+            // Run this on scroll events.
+            $window.scroll(function() {
+                var window_top = $window.scrollTop();
+                var div_top = searchbarAnchor.offset().top;
+                if (window_top > div_top) {
+                    // Make the div sticky.
+                    $searchbar.addClass('stick');
+                    searchbarAnchor.height($searchbar.height());
+                }
+                else {
+                    // Unstick the div.
+                    $searchbar.removeClass('stick');
+                    searchbarAnchor.height(0);
+                }
+            });
+        });
     </script>
 
 {% endblock %}
