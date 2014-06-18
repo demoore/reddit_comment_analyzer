@@ -10,6 +10,8 @@ class Subreddit:
         self.percentage = 0.0
         self.comment_list = list()
         self.comment_count = 0
+        self.highest_comment = 0
+        self.lowest_comment = 0
         self.total_ups = 0
         self.total_downs = 0
 
@@ -22,6 +24,16 @@ class Subreddit:
     __repr__ = __str__
 
     def add_comment(self, comment):
+        if self.comment_count == 0:
+            self.highest_comment = comment.ups
+            self.lowest_comment = comment.downs
+
+        if self.highest_comment < comment.ups:
+            self.highest_comment = comment.ups
+
+        if self.lowest_comment < self.total_downs:
+            self.lowest_comment = self.total_downs
+
         self.comment_list.append(comment)
         self.comment_count += 1
         self.total_ups += comment.ups

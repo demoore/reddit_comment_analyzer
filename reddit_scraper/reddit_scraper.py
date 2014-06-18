@@ -10,8 +10,7 @@ app.config.from_object('config')
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
-def hello_world():
-    name = None
+def main_page():
     form = UserNameForm()
     if form.validate_on_submit():
         user = form.user.data
@@ -20,10 +19,10 @@ def hello_world():
         sub_list = make_subreddit_list(comment_list)
         sub_list.apply_total_comments(total)
         sub_list.total_ups_and_downs()
-        return render_template("user.html", form=form, user=user, total=total, comment_list=comment_list, sub_list=sub_list)
+        return render_template("user.html", form=form, user=user, total=total, comment_list=comment_list,
+                               sub_list=sub_list)
 
     return render_template("index.html", form=form)
-
 
 if __name__ == '__main__':
     app.debug=True

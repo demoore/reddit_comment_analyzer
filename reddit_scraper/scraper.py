@@ -15,7 +15,7 @@ def get_comments(url, delay=2):
     sleep(delay)
     try:
         opener = request.build_opener()
-        opener.addheaders = [('User-agent', 'Comment Analyzer/.01 by zardoz90')]
+        opener.addheaders = [('User-agent', 'Comment Analyzer/.01 by Zardoz90')]
         req = opener.open(url)
         data = req.read().decode('utf8')
         comments = json.loads(data)
