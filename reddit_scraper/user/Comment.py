@@ -22,7 +22,7 @@ class Comment:
         self.comment_id = comment_id
         self.link_id = link_id
         self.context_url = (
-            "http://www.reddit.com/r/{}/comments/{}/{}/{}" .format( subreddit, link_id.split('_')[-1], self.context_link,
+            "http://www.reddit.com/r/{}/comments/{}/{}/{}" .format(subreddit, link_id.split('_')[-1], self.context_link,
             comment_id))
 
     def __str__(self):

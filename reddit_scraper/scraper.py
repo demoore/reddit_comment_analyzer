@@ -78,6 +78,7 @@ def get_comment_count(comment_list):
     subreddit_count = Counter(subreddit for subreddit in comment_list)
     return subreddit_count
 
+
 def make_subreddit_list(comment_list):
     subreddit_list = SubredditList()
     for comment in comment_list:

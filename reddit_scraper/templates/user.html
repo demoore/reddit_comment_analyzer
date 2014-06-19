@@ -23,9 +23,6 @@
             <div class="info well">
                 <h4>Total Comments: {{ total }}</h4>
                 <div class="row graph">
-                <svg id="svg_donut" width="200" height="200"></svg>
-                </div>
-                <div class="row graph">
                     <div class="bargraph">
 
                     </div>
@@ -39,7 +36,7 @@
                 <a class="anchor" name="a_{{ value.name  }}"></a>
                     <div class="subreddit-name">
                         <h3>{{ key }}:
-                            <small>{{ value.comment_count }} {{ '%0.2f' | format(value.percentage) }}% UPS: {{ value.total_ups }} DOWNS: {{ value.total_downs }}</small>
+                            <small>{{ value.comment_count }} {{ '%0.2f' | format(value.percentage) }}% UPS: {{ value.total_ups }} </small>
                         </h3>
                     </div>
                     {% for comment in value.comment_list %}
@@ -49,8 +46,7 @@
                                     <h4 class="panel-title">
                                         <a data-toggle="collapse" data-parent="#accordion_{{ comment.name }}"
                                            href="#collapse_{{ comment.name }}">
-                                            <i class="fa fa-arrow-up ups"></i> {{ comment.ups }} <i
-                                                class="fa fa-arrow-down downs"></i> {{ comment.downs }}
+                                            {{ comment.ups }} <i class="fa fa-arrow-up ups"></i>
                                             {{ comment.link_title[:50] }}... - {{ comment.body[:10] }}...
                                         </a>
                                     </h4>
@@ -76,7 +72,6 @@
         <div class="col-md-3" id="number-data">
             <div class="well">
                 <h4>Highest Comment: {{ sub_list.highest_comment }}</h4>
-                <h4>Lowest Comment: -{{ sub_list.lowest_comment }}</h4>
             </div>
         </div>
     </div>
@@ -89,53 +84,6 @@
         $(document).ready(function () {
             $("#output > .subreddit-entry").tsort("", {order: "desc", attr: "num-sort"});
         });
-    </script>
-    <script>
-        var dataset = {
-            karma: [{{ sub_list.total_ups }}, {{ sub_list.total_downs }}]
-        };
-
-        var width = 200,
-                height = 200,
-                radius = Math.min(width, height) / 2;
-
-        var color = d3.scale.ordinal()
-                .range(["#FF8C00", "#6495ED"]);
-
-        var pie = d3.layout.pie();
-
-        var arc = d3.svg.arc()
-                .innerRadius(0)
-                .outerRadius(radius);
-
-        var svg = d3.select("#svg_donut")
-                .append("svg")
-                .attr("width", width)
-                .attr("height", height);
-
-        var arcs = svg.selectAll("g.arc")
-                .data(pie(dataset.karma))
-                .enter()
-                .append("g")
-                .attr("class", "arc")
-                .attr("transform", "translate(" + radius + ", " + radius + ")");
-
-        arcs.append("path")
-                .attr("fill", function (d, i) {
-                    return color(i);
-                })
-                .attr("d", arc);
-
-        arcs.append("text")
-                .attr("transform", function (d) {
-                    return "translate(" + arc.centroid(d) + ")";
-                })
-                .attr("text-anchor", "middle")
-                .text(function (d) {
-                    return d.value;
-                });
-
-
     </script>
 
     <script>
