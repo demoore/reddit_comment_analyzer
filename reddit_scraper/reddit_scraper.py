@@ -1,8 +1,6 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template
 from Forms import UserNameForm
 from scraper import *
-from user import Comment
-from user.SubredditList import SubredditList
 
 app = Flask(__name__)
 app.config.from_object('config')

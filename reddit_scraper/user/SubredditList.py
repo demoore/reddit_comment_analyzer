@@ -1,7 +1,6 @@
 from user.Subreddit import Subreddit
 
 __author__ = 'dylan'
-from user import Comment
 
 
 class SubredditList:
