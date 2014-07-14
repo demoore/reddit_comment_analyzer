@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <!--Very Mayta-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--CSS-->
+    <link rel="stylesheet" href="css/pure.css"/>
+    <link rel="stylesheet" href="css/grids-responsive.css"/>
+    <link rel="stylesheet" href="css/style.css"/>
+
+    <!--D3js-->
+    <!--<script src="js/d3.js"></script>-->
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+
+    <!--jQuery-->
+    <script src="js/jquery-2.1.1.js"></script>
+
+    <title>Dylan Moore</title>
+    <style>
+        /*
+        When setting the primary font stack, apply it to the Pure grid units along
+        with `html`, `button`, `input`, `select`, and `textarea`. Pure Grids use
+        specific font stacks to ensure the greatest OS/browser compatibility.
+        */
+        html, button, input, select, textarea,
+        .pure-g [class *= "pure-u"] {
+            /* Set your content font stack here: */
+            font-family: "Open Sans", "Amatic SC", Times, "Times New Roman", serif;
+        }
+    </style>
+</head>
+<body>
+<div class="pure-g menu resize" id="title">
+    <div class="pure-g" id="landing">
+        <div class="pure-u-2-5">
+            <div id="portrait">
+                <img src="http://www.placecage.com/c/400/400" class="pure-img" alt=""/>
+            </div>
+        </div>
+        <div class="pure-u-2-5">
+            <div id="info">
+                <h1>Hi,</h1>
+
+                <p>Welcome to the personal site of Dylan Moore. I'm a developer based in Victoria, British Columbia
+                    specializing in solutions for the web. Check out what I'm working on below.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="nav-content">
+    <div id="nav-buttons">
+        <div class="pure-menu pure-menu-open pure-menu-horizontal menu" id="mini-nav">
+            <ul>
+                <li><span class="min-nav-text" id="mini-nav-name"><a href="javascript:void(0)">Dylan Moore</a></span>
+                </li>
+                <li><span class="min-nav-text bio-button"><a href="javascript:void(0)">Bio</a></span></li>
+                <li><span class="min-nav-text resume-button"><a href="javascript:void(0)">Resum&#xE9;</a></span></li>
+                <li><span class="min-nav-text"><a href="http://github.com/demoore">GitHub</a></span></li>
+                <li><span class="min-nav-text"><a href="http://zardoz.svbtle.com">Blog </a></span></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div id="content">
+</div>
+
+<footer>
+    <p>Copyright Dylan Moore</p>
+</footer>
+<script>
+    $(document).ready(function () {
+        var toggled = false;
+
+        $.get("html/pipeline.html", function (data) {
+            $("#content").replaceWith(data);
+        });
+
+        $("#mini-nav-name").click(function () {
+            $.get("html/pipeline.html", function (data) {
+                $("#content").replaceWith(data);
+                if (toggled) {
+                    $("#title").slideDown(400);
+                    toggled = false;
+                } else {
+                    $("#title").slideUp(400);
+                    toggled = true;
+                }
+            });
+        });
+
+        $(".bio-button").click(function () {
+            $.get("html/bio.html", function (data) {
+                $("#content").replaceWith(data);
+                $("#title").slideUp(400);
+            });
+        });
+
+        $(".resume-button").click(function () {
+            $.get("html/resume.html", function (data) {
+                $("#content").replaceWith(data);
+                $("#title").slideUp(400);
+            });
+        });
+
+        var topPadding = $("#nav-content").height();
+
+        $(window).bind('scroll', function () {
+            var num;
+            if(!toggled){
+                num = $("#title").height() + 10;
+            } else {
+                num = -1;
+                $("#content").css("padding-top", $("#nav-content").height());
+            }
+            if ($(window).scrollTop() > num) {
+                $('#nav-content').addClass('fixed');
+                $("#title").css("padding-top", topPadding);
+            } else {
+                $('#nav-content').removeClass('fixed');
+                $("#title").css("padding-top", 0);
+            }
+        });
+    });
+
+
+</script>
+</body>
+</html>
