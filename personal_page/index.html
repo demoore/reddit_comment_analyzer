@@ -32,7 +32,23 @@
     </style>
 </head>
 <body>
-<div class="pure-g menu resize" id="title">
+
+<a class="menu-link" href="#menu" id="menuLink">
+    <span>D</span>
+</a>
+
+<div id="menu">
+    <img src="http://www.placecage.com/c/100/100" class="pure-img" alt=""
+         style="max-width: 100px; margin:auto; padding-top: 20%"/>
+    <ul>
+        <li><span class="mob-nav-text mini-nav-name"><a href="javascript:void(0)">Dylan</a></span>
+        </li>
+        <li><span class="mob-nav-text resume-button"><a href="javascript:void(0)">Resum&#xE9;</a></span></li>
+        <li><span class="mob-nav-text"><a href="http://github.com/demoore">GitHub</a></span></li>
+        <li id="bottom"><span class="mob-nav-text"><a href="http://zardoz.svbtle.com">Blog </a></span></li>
+    </ul>
+</div>
+<div class="pure-g resize" id="title">
     <div class="pure-g" id="landing">
         <div class="pure-u-2-5">
             <div id="portrait">
@@ -40,23 +56,35 @@
             </div>
         </div>
         <div class="pure-u-2-5">
-            <div id="info">
-                <h1>Hi,</h1>
+            <div id="info" class="info-text">
+                <h1 style="color: whitesmoke;">Greetings,</h1>
 
-                <p>Welcome to the personal site of Dylan Moore. I'm a developer based in Victoria, British Columbia
-                    specializing in solutions for the web. Check out what I'm working on below.</p>
+                <p>Welcome to the personal site of me, Dylan Moore. I'm a developer specializing in web-based solutions. I
+                    hail from Port McNeill, BC but now live in Victoria, British Columbia. <br/> <br/> Check out what I'm working on
+                    below.</p>
             </div>
+        </div>
+    </div>
+</div>
+
+<div class="pure-g" id="mob-title">
+    <div class="pure-u-1">
+        <div class="info-text" id="mob-title-text">
+            <h1 style="color: whitesmoke;">Greetings,</h1>
+
+            <p>Welcome to the personal site of me, Dylan Moore. I'm a developer specializing in web-based solutions. I
+                hail from Port McNeill, BC but now live in Victoria, British Columbia.  <br/> <br/> Check out what I'm working on
+                below.</p>
         </div>
     </div>
 </div>
 
 <div id="nav-content">
     <div id="nav-buttons">
-        <div class="pure-menu pure-menu-open pure-menu-horizontal menu" id="mini-nav">
+        <div class="pure-menu pure-menu-open pure-menu-horizontal" id="mini-nav">
             <ul>
-                <li><span class="min-nav-text" id="mini-nav-name"><a href="javascript:void(0)">Dylan Moore</a></span>
+                <li><span class="min-nav-text mini-nav-name"><a href="javascript:void(0)">Dylan Moore</a></span>
                 </li>
-                <li><span class="min-nav-text bio-button"><a href="javascript:void(0)">Bio</a></span></li>
                 <li><span class="min-nav-text resume-button"><a href="javascript:void(0)">Resum&#xE9;</a></span></li>
                 <li><span class="min-nav-text"><a href="http://github.com/demoore">GitHub</a></span></li>
                 <li><span class="min-nav-text"><a href="http://zardoz.svbtle.com">Blog </a></span></li>
@@ -69,27 +97,35 @@
 </div>
 
 <footer>
-    <p>Copyright Dylan Moore</p>
+    <p style="float: right;">Copyright Dylan Moore</p>
 </footer>
 <script>
+
     $(document).ready(function () {
         var toggled = false;
+        var pipeline = true;
+        var resume = true;
 
         $.get("html/pipeline.html", function (data) {
-            $("#content").replaceWith(data);
+            $("#content").hide().html(data).fadeIn(800);
         });
 
-        $("#mini-nav-name").click(function () {
-            $.get("html/pipeline.html", function (data) {
-                $("#content").replaceWith(data);
-                if (toggled) {
-                    $("#title").slideDown(400);
-                    toggled = false;
-                } else {
-                    $("#title").slideUp(400);
-                    toggled = true;
-                }
-            });
+        $(".mini-nav-name").click(function () {
+            resume = true;
+            if (!pipeline) {
+                $.get("html/pipeline.html", function (data) {
+                    $("#content").hide().html(data).fadeIn(800);
+                });
+            }
+            if (toggled) {
+                $("#title").slideDown(400);
+                pipeline = true;
+                toggled = false;
+            } else {
+                $("#title").slideUp(400);
+                pipeline = true;
+                toggled = true;
+            }
         });
 
         $(".bio-button").click(function () {
@@ -97,20 +133,26 @@
                 $("#content").replaceWith(data);
                 $("#title").slideUp(400);
             });
+            pipeline = false;
         });
 
         $(".resume-button").click(function () {
-            $.get("html/resume.html", function (data) {
-                $("#content").replaceWith(data);
-                $("#title").slideUp(400);
-            });
+            if (resume) {
+                $.get("html/resume.html", function (data) {
+                    $("#content").hide().html(data).fadeIn(800);
+                    $("#title").slideUp(400);
+                });
+            }
+            resume = false;
+            toggled = true;
+            pipeline = false;
         });
 
         var topPadding = $("#nav-content").height();
 
         $(window).bind('scroll', function () {
             var num;
-            if(!toggled){
+            if (!toggled) {
                 num = $("#title").height() + 10;
             } else {
                 num = -1;
@@ -124,6 +166,19 @@
                 $("#title").css("padding-top", 0);
             }
         });
+
+        var slide = true;
+        $("#menuLink").click(function () {
+            if (slide) {
+                $("#menuLink").animate({left: "160px"});
+                $("#menu").animate({left: "160px"});
+                slide = false;
+            } else {
+                $("#menuLink").animate({left: "0"});
+                $("#menu").animate({left: "0"});
+                slide = true;
+            }
+        })
     });
 
 

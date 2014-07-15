@@ -1,20 +1,39 @@
-@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300);
+@import url(http://fonts.googleapis.com/css?family=Lato);
 @import url(http://fonts.googleapis.com/css?family=Amatic+SC:700);
 
 /*
-Colour pallete
+Colour palette
 http://www.colourlovers.com/palette/1317408/Drifting_through
 */
 
 * {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Lato', sans-serif;
     margin: 0;
     padding: 0;
 }
 
+@media screen and (max-width: 1024px) {
+    #title {
+        display: none !important;
+    }
+    #nav-content{
+        display: none !important;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    #mob-title{
+        display: block !important;
+    }
+}
 html, body {
     height: 100%;
 }
+
+ul {
+    list-style-type:none;
+}
+
 
 #title {
     padding: 10px 0 10px 0;
@@ -23,20 +42,21 @@ html, body {
     width: 100%;
 }
 
-h1 {
+h1, h2, h3 {
     font-family: "Amatic SC", cursive;
     font-size: 3em;
+    color: #343434;
 }
 
 text {
     font-family: "Amatic SC", cursive;
     font-size: 4rem;
     line-height: 8rem;
+    color: whitesmoke;
 }
 
 #menu {
     /*padding-top: 20px;*/
-    padding-right: 10px;
     font-size: 40px;
     font-family: "Amatic SC", cursive;
     color: whitesmoke;
@@ -63,8 +83,11 @@ text {
     font-family: "Amatic SC", cursive;
 }
 
-#content {
-    /*padding-left: 10%;*/
+.content {
+    max-width: 1200px;
+    margin-left:auto;
+    margin-right: auto;
+    font-size: 1.25em;
 }
 
 .text-content {
@@ -87,6 +110,10 @@ text {
 
 .large-title {
     font-size: 4em;
+    text-align: center;
+}
+
+.text-center{
     text-align: center;
 }
 
@@ -159,6 +186,20 @@ footer {
     max-width: 100%;
 }
 
+#mob-title{
+    background-color: #3D4F5D;
+    display: none;
+    border-bottom: 3px solid #631B33;
+}
+
+#mob-title-text {
+    padding: 30px;
+    color: whitesmoke;
+    font-size: 1.25em;
+    max-width: 600px;
+    margin: auto;
+}
+
 .fixed {
     top: 0;
     position: fixed;
@@ -176,12 +217,22 @@ footer {
     font-family: "Amatic SC", cursive;
 }
 
-#mini-nav-name {
+.mob-nav-text {
+    color: whitesmoke;
+    font-family: "Amatic SC", cursive;
+    /*font-size: 3em;*/
+}
 
+.mob-nav-text > a {
+    color: whitesmoke;
+    text-decoration: none;
+    font-family: "Amatic SC", cursive;
 }
 
 #info {
     padding: 30px;
+    color: whitesmoke !important;
+    font-size: 1.25em;
 }
 
 #info > p {
@@ -241,6 +292,74 @@ footer {
 }
 
 path {
-    stroke: #ffffff;
-    stroke-width: 3px;
+    /*stroke: #BBBBBB;*/
+    stroke-width: 4px;
+}
+
+.info-text {
+    padding-left: 16px;
+    padding-right: 16px;
+    color: #565656;
+}
+
+.info-text > p > a{
+    color: #3B8BBA;
+    text-decoration: none;
+}
+
+@media screen and (min-width: 1024px) {
+    #menu, #menuLink {
+        visibility: hidden;
+        left: 160px;
+    }
+}
+
+/* --------------------------
+ * Main Navigation Bar Styles
+ * --------------------------
+*/
+
+#menu {
+    margin-left: -160px; /* "#menu" width */
+    width: 160px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1000; /* so the menu or its navicon stays above all content */
+    background: #3D4F5D;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+#menu > ul {
+    width: 100%;
+    padding: 0 !important;
+    overflow-y: hidden;
+    overflow: hidden;
+}
+#menu > ul > li {
+    padding: 0 10px 0 10px !important;
+    border-bottom: 3px solid #631B33;
+}
+
+#bottom {
+    border-bottom: 0 !important;
+}
+
+#menuLink {
+    position: fixed;
+    z-index: 1000;
+    background-color: rgba(61, 79, 93, .8);
+    font-size: 40px;
+    color: whitesmoke;
+    height: 45px;
+    width: 45px;
+    text-decoration: none;
+    text-align: center;
+    padding: 10px;
+}
+#menuLink > span{
+    font-family: "Amatic SC", Sans-serif;
+    font-weight: bolder;
 }
