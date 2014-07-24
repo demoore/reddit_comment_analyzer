@@ -1,0 +1,5 @@
+Flask==0.10.1
+Jinja2==2.7.2
+WTForms==1.0.5
+Werkzeug==0.9.4
+Flask_WTF==0.9.5
